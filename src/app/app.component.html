@@ -1,0 +1,40 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div *ngIf="!assignNodes"style="text-align:center">
+  <div >{{ subjectName}}</div>
+
+  <h3>Click subcategories to select</h3>
+  <select id=""  (change)="toggleItem($event.target.value)"  style="position:relative; left: 100px">
+    <option >Select</option>
+    <option *ngFor="let i of sourceArray;" value="{{i}}" >{{ i }}</option>
+</select>
+  <!-- <ul>
+    <li *ngFor="let item of sourceArray" (click)="toggleItem(item)">
+      {{item}}
+    </li>
+  </ul> -->
+  <!-- <button (click)="selectAllItems()">Select All</button> -->
+  
+  <hr>
+  
+  <h3>Selected</h3>
+  <ul>
+    <li *ngFor="let item of selected">
+      {{item}}
+    </li>
+  </ul>
+
+</div>
+<div *ngIf="assignNodes"style="text-align:center">
+  <div *ngFor="let item of selectedArray; let indexOfElement = index;">
+    <label>{{item || toUpperCase}}</label>
+    <br />
+    <!-- <input type="text" (input)="sendTheNewValue($event,indexOfElement)"  /> -->
+    <select id=""  (change)="sendTheNewValue($event.target.value,indexOfElement)"  style="position:relative; left: 100px">
+      <option >Select</option>
+      <option *ngFor="let i of selectedArray;" value="{{i}}" >{{ i }}</option>
+  </select>
+  </div>
+</div>
+
+
+<router-outlet></router-outlet>
