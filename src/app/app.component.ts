@@ -14,6 +14,10 @@ export class AppComponent {
   //category
   subjectName = "Maths";
 
+  root = {id:0, parent_id: null, children: []};
+  node_list = { 0 : this.root};
+  
+
   //sub category
   sourceArray = [
     'Stats',
@@ -55,12 +59,22 @@ this.assignNodes=true;
   this.indexOfElement = indexOfElement;
   for(let i=0;i<this.selectedArray.length;i++){
     if(this.indexOfElement==i){
-        this.treeModel.push({id: this.indexOfElement,name:this.selectedArray[i],parent: this.text});
+        this.treeModel.push({id: this.indexOfElement,parent_id: i, children: []});
       }
   }
   console.log("🚀 ~ file: app.component.ts ~ line 74 ~ AppComponent ~ sendTheNewValue ~ this.treeModel", this.treeModel)
-  var myJsonString = JSON.stringify(this.treeModel);
-  console.log("🚀 ~ file: app.component.ts ~ line 63 ~ AppComponent ~ sendTheNewValue ~ myJsonString", myJsonString)
-  }
+  // var myJsonString = JSON.stringify(this.treeModel);
+  // console.log("🚀 ~ file: app.component.ts ~ line 63 ~ AppComponent ~ sendTheNewValue ~ myJsonString", myJsonString)
+
+  for (let i = 0; i < this.treeModel.length; i++) {
+    this.node_list[this.treeModel[i].id] = this.treeModel[i];
+    this.node_list[this.treeModel[i].parent_id].children.push(this.node_list[this.treeModel[i].id]);
+}
+console.log("🚀 ~ file: app.component.ts ~ line 71 ~ AppComponent ~ sendTheNewValue ~ this.node_list", this.node_list)
+
+}
+
+
+
 
 }
