@@ -18,23 +18,63 @@
   
   <h3>Selected</h3>
   <ul>
-    <li *ngFor="let item of selected">
+    <li (click)="AddElementToArray(item)" *ngFor="let item of selected">
       {{item}}
     </li>
   </ul>
 
 </div>
 <div *ngIf="assignNodes"style="text-align:center">
+  <!-- Select Root Node
+  <select id=""  (change)="selectRootNode($event.target.value,indexOfElement)"  style="position:relative; left: 100px">
+    <option >Select</option>
+    <option *ngFor="let i of selectedArray;" value="{{i}}" >{{ i }}</option>
+</select> -->
   <div *ngFor="let item of selectedArray; let indexOfElement = index;">
     <label>{{item || toUpperCase}}</label>
     <br />
     <!-- <input type="text" (input)="sendTheNewValue($event,indexOfElement)"  /> -->
-    <select id=""  (change)="sendTheNewValue($event.target.value,indexOfElement)"  style="position:relative; left: 100px">
+    <select id=""  (change)="sendTheNewValue($event.target.value,item,indexOfElement)"  style="position:relative; left: 100px">
       <option >Select</option>
       <option *ngFor="let i of selectedArray;" value="{{i}}" >{{ i }}</option>
   </select>
   </div>
 </div>
 
+<button type="submit" name="forLoop" (click)= "completeForLoop()" >Submit</button>
 
+<div *ngIf='showGraphStatus'>
+<svg viewBox="0 0 1024 1024" width="1024" height="1024">
+	<defs>
+		<marker id="arrow" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
+			<path d="M0,0 L0,6 L9,3 z" fill="#f00" />
+		</marker>
+	</defs>
+	<rect fill="#eee" x="0" y="0" width="1024" height="1024"></rect>
+	<g transform="translate(24 24)">
+		<ng-container *ngFor="let n of nodes">
+			<g *ngIf="nodeInfo(n) as ni">
+				<text
+            [attr.x]="ni.x"
+            [attr.y]="ni.y - 16"
+            #t
+            text-anchor="middle">
+          {{ni.label}}
+        </text>
+				<rect *ngIf="t.getBBox() as bbox"
+            [attr.width]="180"
+            [attr.height]="24"
+            [attr.x]="ni.x - 90"
+            [attr.y]="ni.y - 34"
+            fill="transparent"
+				    stroke="#000">
+				</rect>
+			</g>
+		</ng-container>
+		<ng-container *ngFor="let e of edges">
+			<path [attr.d]="makePath(edgeInfo(e).points)" stroke="black" marker-end="url(#arrow)" fill="transparent"></path>
+		</ng-container>
+	</g>
+</svg>
+</div>
 <router-outlet></router-outlet>
